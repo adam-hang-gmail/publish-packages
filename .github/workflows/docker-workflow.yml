@@ -1,0 +1,37 @@
+name: Docker Image Build und Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_test_docker_image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub (Optional)
+        # Ersetze YOUR_DOCKERHUB_USERNAME mit deinem Docker Hub Benutzernamen
+        # Und stelle sicher, dass DOCKERHUB_TOKEN in deinen Repository Secrets hinterlegt ist.
+        # Wenn du nur bauen und nicht pushen willst, kannst du diesen Schritt weglassen.
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: . # Der Kontext für den Build ist das aktuelle Verzeichnis
+          push: false # Setze dies auf 'true', wenn du das Image nach Docker Hub pushen möchtest
+          tags: my-docker-image:latest # Dein gewünschter Image-Name und Tag
+
+      - name: Run Docker Container and Test Output
+        # Dieser Schritt führt das soeben gebaute Image aus und überprüft die Ausgabe
+        run: |
+          docker run my-docker-image:latest
+          # Optional: Eine einfache Überprüfung der Ausgabe
+          # docker run my-docker-image:latest | grep "Hallo"
