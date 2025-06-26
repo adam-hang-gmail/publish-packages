@@ -8,5 +8,4 @@ WORKDIR /app
 COPY . /app
 
 # Command to run when the container starts
-CMD ["echo", "Hallo von meinem Docker Container!"]
-CMD ["echo", "This is my second text!"]
+CMD ["echo", "This is my first text!"]
