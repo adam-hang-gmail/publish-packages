@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Docker Image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: . # Der Kontext für den Build ist das aktuelle Verzeichnis
           push: false # Setze dies auf 'true', wenn du das Image nach Docker Hub pushen möchtest
